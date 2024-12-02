@@ -39,7 +39,7 @@ async function run() {
 
 
       app.post('/schedule', async(req, res) => {
-        //   const user = req.body;
+          const user = req.body;
         // //   console.log(user)
           //   const result = await gymSchedule.insertOne(user)
           
@@ -47,11 +47,9 @@ async function run() {
 
         //   const user = req.body;
           // //   console.log(user)
-            const result = await gymSchedule.insertOne({user:'ffff',age:24})
-          //   const result= await
-          console.log(result)
-          console.log(req)
-          res.send(result)
+            // const result = await gymSchedule.insertOne({user:'ffff',age:24})
+         
+          // res.send(result)
 })
 
 
