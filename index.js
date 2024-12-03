@@ -43,7 +43,7 @@ app.get('/schedule/:id', async(req, res) => {
   const id = req.params
   const result = await gymSchedule.findOne({ _id: new ObjectId(id) });
   res.send(result)
-  console.log(result)
+ 
 })
 
 
@@ -51,7 +51,17 @@ app.get('/schedule/:id', async(req, res) => {
 /* -------------------------------- get data -------------------------------- */
 app.get('/schedule', async(req, res) => {
           // const scheduleData = req.body;
-          const cursor = await gymSchedule.find().toArray()
+
+          const {searchParams}=req.query
+          console.log(searchParams)
+          let option={}
+
+          if (searchParams) {
+           option = { title: { $regex: searchParams, $options: "i" }}
+            
+          }
+
+          const cursor = await gymSchedule.find(option).toArray()
           // const result = await gymSchedule.insertOne(scheduleData)
           console.log(cursor)
           res.send(cursor)
@@ -71,7 +81,7 @@ app.delete('/schedule/:id', async(req, res) => {
           const id = req.params
           const result = await gymSchedule.deleteOne({ _id: new ObjectId(id) });
           res.send(result)
-          console.log(result)
+         
 })
 
 /* --------------------------------- patch --------------------------------- */
@@ -90,6 +100,24 @@ app.patch('/schedule/:id', async(req, res) => {
           // }
           const updateDoc={
             $set:req.body
+          }
+          const result = await gymSchedule.updateOne(query,updateDoc);
+          res.send(result)
+          console.log(result)
+})
+
+
+/* --------------------------------- patch for update one doc --------------------------------- */
+
+app.patch('/status/:id', async(req, res) => {
+          const id = req.params
+          const data =req.body
+          const query = { _id: new ObjectId(id) }
+
+          const updateDoc={
+            $set:{
+              isCompleted:true
+            }
           }
           const result = await gymSchedule.updateOne(query,updateDoc);
           res.send(result)
